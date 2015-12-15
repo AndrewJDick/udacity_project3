@@ -80,7 +80,7 @@ var Engine = (function(global) {
      */
     function update(dt) {
         updateEntities(dt);
-        // checkCollisions();
+        checkCollisions();
     }
 
     /* This is called by the update function and loops through all of the
@@ -94,6 +94,11 @@ var Engine = (function(global) {
         allEnemies.forEach(function(enemy) {
             enemy.update(dt);
         });
+
+        // allPickups.forEach(function(pickup) {
+        //     pickup.update(dt);
+        // });
+
         player.update();
     }
 
@@ -147,11 +152,17 @@ var Engine = (function(global) {
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
+        // allPickups.forEach(function(pickup) {
+        //     pickup.render();
+        // });
+
         allEnemies.forEach(function(enemy) {
             enemy.render();
         });
 
         player.render();
+
+        //
 
     }
 
