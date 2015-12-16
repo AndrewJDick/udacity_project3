@@ -1,4 +1,4 @@
-// Continually determine whether any of the enemies have collided with the player
+// Continually determine whether the player has collided with either an enemy or "collected" a pickup
 function checkCollisions() {
 
     for (var i in allEnemies) {
@@ -10,6 +10,19 @@ function checkCollisions() {
             // Subtracts 1 from player's total lives, then resets the player to their starting position
             player.lives = player.lives - 1;
             player.reset();
+        }
+    }
+
+    for (var i in allPickups) {
+
+        if ((player.x === allPickups[i].x) && (player.y === allPickups[i].y)) {
+
+            // Award points whenever a player lands on a pickup
+            player.score = player.score + allPickups[i].value;
+
+            // Move object off-screen when the pickup has been "collected"
+            allPickups[i].x = -100;
+            allPickups[i].y = -100;
         }
     }
 };
@@ -82,9 +95,7 @@ Enemy.prototype.update = function(dt) {
 var Pickup = function() {
 
     this.pickupItem();
-    this.x = xyCoords('x');
-    this.y = xyCoords('y');
-
+    this.reset();
 };
 
 Pickup.prototype.pickupItem = function () {
@@ -121,8 +132,13 @@ Pickup.prototype.pickupItem = function () {
 
 Pickup.prototype.render = function() {
 
-    ctx.drawImage(Resources.get(this.sprite), pickup0.x, pickup0.y);
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
 
+Pickup.prototype.reset = function () {
+
+    this.x = xyCoords('x');
+    this.y = xyCoords('y');
 };
 
 
@@ -138,7 +154,6 @@ var Player = function () {
     this.lives = 3;
 
     this.score = 0;
-
 };
 
 Player.prototype.handleInput = function(control) {
@@ -163,6 +178,16 @@ Player.prototype.handleInput = function(control) {
 Player.prototype.render = function () {
 
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+
+    this.totalScore = "Score: " + String(this.score);
+
+    ctx.font = "20pt Impact";
+    ctx.textAlign = "center";
+    ctx.fillStyle = "white";
+    ctx.fillText(this.totalScore, 430, 580);
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = 2;
+    ctx.strokeText(this.totalScore, 430, 580);
 };
 
 Player.prototype.reset = function () {
@@ -179,22 +204,14 @@ Player.prototype.update = function () {
     if (this.y === -20) {
         this.reset();
         this.score = this.score + 50;
+
+        // Re-position pickups
+        for (var i in allPickups) {
+            allPickups[i].reset();
+            allPickups[i].pickupItem();
+        }
     }
 
-    // Award points whenever a player lands on a pickup
-    // for (var i in allPickups) {
-
-    //     if ((this.x === allPickups[i].x) && (this.y === allPickups[i].y)) {
-
-    //         if (allPickups[i] === 'images/gem-orange.png') {
-    //             this.score = this.score + pickup0.value;
-    //         }
-
-    //         else {
-    //             this.lives = this.lives + allPickups[i].value;
-    //         }
-    //     }
-    // }
 };
 
 
@@ -204,15 +221,23 @@ var enemy1 = new Enemy();
 var enemy2 = new Enemy();
 var allEnemies = [enemy0, enemy1, enemy2];
 
-var player = new Player();
-
 var pickup0 = new Pickup();
-var allPickups = [pickup0];
+var pickup1 = new Pickup();
+var allPickups = [pickup0, pickup1];
+
+var player = new Player();
 
 console.log (pickup0.sprite);
 console.log (pickup0.value);
 console.log (pickup0.x);
 console.log (pickup0.y);
+
+console.log (pickup1.sprite);
+console.log (pickup1.value);
+console.log (pickup1.x);
+console.log (pickup1.y);
+
+
 
 
 // This listens for key presses and sends the keys to your
