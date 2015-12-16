@@ -152,6 +152,10 @@ var Engine = (function(global) {
             enemy.render();
         });
 
+        allPickups.forEach(function(pickup) {
+            pickup.render();
+        });
+
         player.render();
 
     }
@@ -173,7 +177,14 @@ var Engine = (function(global) {
         'images/water-block.png',
         'images/grass-block.png',
         'images/enemy-bug.png',
+        'images/gem-blue.png',
+        'images/gem-green.png',
+        'images/gem-orange.png',
+        'images/Heart.png',
+        'images/Star.png',
+        'images/Key.png',
         'images/char-boy.png'
+
     ]);
     Resources.onReady(init);
 

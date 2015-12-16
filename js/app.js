@@ -121,7 +121,7 @@ Pickup.prototype.pickupItem = function () {
 
 Pickup.prototype.render = function() {
 
-        ctx.drawImage(pickup0.sprite, pickup0.x, pickup0.y);
+    ctx.drawImage(Resources.get(this.sprite), pickup0.x, pickup0.y);
 
 };
 
@@ -207,8 +207,7 @@ var allEnemies = [enemy0, enemy1, enemy2];
 var player = new Player();
 
 var pickup0 = new Pickup();
-var pickup1 = new Pickup();
-var allPickups = [pickup0, pickup1];
+var allPickups = [pickup0];
 
 console.log (pickup0.sprite);
 console.log (pickup0.value);
