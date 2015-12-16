@@ -154,10 +154,6 @@ var Engine = (function(global) {
 
         player.render();
 
-        allPickups.forEach(function(pickup) {
-             pickup.render();
-        });
-
     }
 
     /* This function does nothing but it could have been a good place to

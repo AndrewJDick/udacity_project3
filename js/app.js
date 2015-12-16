@@ -93,7 +93,6 @@ Pickup.prototype.pickupItem = function () {
 
     // Pickups worth more to the player have a smaller chance of spawning.
     probVal = Math.random();
-    console.log(probVal);
 
     // Star (100 Points)
     if (probVal >= 0.9) {
@@ -122,7 +121,7 @@ Pickup.prototype.pickupItem = function () {
 
 Pickup.prototype.render = function() {
 
-    //ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    //
 };
 
 
@@ -163,6 +162,7 @@ Player.prototype.handleInput = function(control) {
 Player.prototype.render = function () {
 
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    ctx.drawImage(Resources.get(pickup0.sprite), pickup0.x, pickup0.y);
 };
 
 Player.prototype.reset = function () {
@@ -175,26 +175,26 @@ Player.prototype.reset = function () {
 Player.prototype.update = function () {
 
     // Award points and reset the player if they make it to the water.
+    // To-Do: Reset pickups
     if (this.y === -20) {
         this.reset();
         this.score = this.score + 50;
-        console.log(this.score);
     }
 
-    // Award points whenevr a player lands on a pickup
-    for (var i in allPickups) {
+    // Award points whenever a player lands on a pickup
+    // for (var i in allPickups) {
 
-        if ((this.x === allPickups[i].x) && (this.y === allPickups[i].y)) {
+    //     if ((this.x === allPickups[i].x) && (this.y === allPickups[i].y)) {
 
-            if (allPickups[i] !== 'images/Heart.png') {
-                score = score + allpickups[i].value;
-            }
+    //         if (allPickups[i] === 'images/gem-orange.png') {
+    //             this.score = this.score + pickup0.value;
+    //         }
 
-            else {
-                this.lives = this.lives + allpickups[i].value;
-            }
-        }
-    }
+    //         else {
+    //             this.lives = this.lives + allPickups[i].value;
+    //         }
+    //     }
+    // }
 };
 
 
@@ -212,10 +212,8 @@ var allPickups = [pickup0, pickup1];
 
 console.log (pickup0.sprite);
 console.log (pickup0.value);
-
-console.log (pickup1.sprite);
-console.log (pickup1.value);
-
+console.log (pickup0.x);
+console.log (pickup0.y);
 
 
 // This listens for key presses and sends the keys to your
