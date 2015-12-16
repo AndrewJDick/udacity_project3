@@ -95,6 +95,8 @@ var Engine = (function(global) {
             enemy.update(dt);
         });
 
+        ui.update();
+
         player.update();
     }
 
@@ -167,7 +169,7 @@ var Engine = (function(global) {
      * those sorts of things. It's only called once by the init() method.
      */
     function reset() {
-        // noop
+        //noop
     }
 
     /* Go ahead and load all of the images we know we're going to need to
@@ -185,7 +187,7 @@ var Engine = (function(global) {
         'images/Heart.png',
         'images/Star.png',
         'images/Key.png',
-        'images/char-boy.png'
+        'images/char-cat-girl.png'
 
     ]);
     Resources.onReady(init);

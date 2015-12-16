@@ -1,18 +1,24 @@
 // Continually determine whether the player has collided with either an enemy or "collected" a pickup
 function checkCollisions() {
 
+    // Enemies
     for (var i in allEnemies) {
 
         if ((player.x < allEnemies[i].x + (allEnemies[i].width - 20)) &&
             (player.x + player.width > allEnemies[i].x) &&
             (player.y === allEnemies[i].y)) {
 
-            // Subtracts 1 from player's total lives, then resets the player to their starting position
-            player.lives = player.lives - 1;
+            // Resets the player to their starting position
             player.reset();
+
+            // Remove life on enemy collision
+            if (player.lives > 0) {
+                player.lives = player.lives - 1;
+            }
         }
     }
 
+    // Pickups
     for (var i in allPickups) {
 
         if ((player.x === allPickups[i].x) && (player.y === allPickups[i].y)) {
@@ -150,15 +156,12 @@ Pickup.prototype.reset = function () {
 // Player One
 var Player = function () {
 
-    this.sprite = 'images/char-boy.png';
-    this.reset();
-
+    this.sprite = 'images/char-cat-girl.png';
+    this.lives = 3;
+    this.score = 0;
     this.width = 101;
     this.height = 171;
-
-    this.lives = 3;
-
-    this.score = 0;
+    this.reset();
 };
 
 Player.prototype.handleInput = function(control) {
@@ -183,7 +186,6 @@ Player.prototype.handleInput = function(control) {
 Player.prototype.render = function () {
 
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-
 };
 
 Player.prototype.reset = function () {
@@ -195,8 +197,7 @@ Player.prototype.reset = function () {
 
 Player.prototype.update = function () {
 
-    // Award points and reset the player if they make it to the water.
-    // To-Do: Reset pickups
+    // Award points and reset the player to the starting position if they make it to the water.
     if (this.y === -20) {
         this.reset();
         this.score = this.score + 50;
@@ -207,31 +208,55 @@ Player.prototype.update = function () {
             allPickups[i].pickupItem();
         }
     }
+};
+
+
+// User Interface
+var UI = function() {
+
+    //Game Over
+    this.gameOver = "GAME OVER!";
 
 };
 
-var UI = function() {};
-
-// User Interface
 UI.prototype.render = function () {
 
+    // Player Score
+    ctx.font = "35px Helvetica Neue";
+    ctx.textAlign = "left";
+
+    ctx.fillStyle = "white";
+    ctx.fillText(this.totalScore, 10, 575);
+    ctx.fillText(this.playerLives, 370, 575);
+
+    ctx.lineWidth = 0.75;
+    ctx.strokeStyle = "black";
+    ctx.strokeText(this.totalScore, 10, 575);
+    ctx.strokeText(this.playerLives, 370, 575);
+
+
+    if (player.lives === 0) {
+        ctx.font = "72pt Impact";
+        ctx.textAlign = "center";
+        ctx.strokeStyle = "white";
+
+        ctx.lineWidth = 2;
+        ctx.strokeText(this.gameOver, 250, 325);
+
+        ctx.fillStyle = "black";
+        ctx.fillText(this.gameOver, 250, 325);
+    }
+};
+
+
+UI.prototype.update = function () {
+
+// Player's Score
     this.totalScore = "Score: " + String(player.score);
 
+    // Player's Lives
     this.playerLives = "Lives: " + String(player.lives);
-
-    ctx.font = "20pt Impact";
-    ctx.textAlign = "center";
-    ctx.strokeStyle = "black";
-    ctx.lineWidth = 2;
-    ctx.strokeText(this.totalScore, 50, 575);
-
-    ctx.font = "20pt Impact";
-    ctx.textAlign = "center";
-    ctx.strokeStyle = "black";
-    ctx.lineWidth = 2;
-    ctx.strokeText(this.playerLives, 450, 575);
-}
-
+};
 
 
 // Now instantiate your objects.
@@ -248,18 +273,6 @@ var player = new Player();
 
 var ui = new UI();
 
-console.log (pickup0.sprite);
-console.log (pickup0.value);
-console.log (pickup0.x);
-console.log (pickup0.y);
-
-console.log (pickup1.sprite);
-console.log (pickup1.value);
-console.log (pickup1.x);
-console.log (pickup1.y);
-
-
-
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
@@ -272,7 +285,8 @@ document.addEventListener('keyup', function(e) {
         37: 'left',
         38: 'up',
         39: 'right',
-        40: 'down'
+        40: 'down',
+        13: 'enter'
     };
 
     player.handleInput(allowedKeys[e.keyCode]);
