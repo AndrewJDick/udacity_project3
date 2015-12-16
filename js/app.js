@@ -17,8 +17,13 @@ function checkCollisions() {
 
         if ((player.x === allPickups[i].x) && (player.y === allPickups[i].y)) {
 
-            // Award points whenever a player lands on a pickup
-            player.score = player.score + allPickups[i].value;
+            if (allPickups[i].sprite === 'images/Heart.png') {
+                player.lives = player.lives + 1;
+            }
+
+            else {
+                player.score = player.score + allPickups[i].value;
+            }
 
             // Move object off-screen when the pickup has been "collected"
             allPickups[i].x = -100;
@@ -142,7 +147,7 @@ Pickup.prototype.reset = function () {
 };
 
 
-// Player
+// Player One
 var Player = function () {
 
     this.sprite = 'images/char-boy.png';
@@ -179,15 +184,6 @@ Player.prototype.render = function () {
 
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 
-    this.totalScore = "Score: " + String(this.score);
-
-    ctx.font = "20pt Impact";
-    ctx.textAlign = "center";
-    ctx.fillStyle = "white";
-    ctx.fillText(this.totalScore, 430, 580);
-    ctx.strokeStyle = "black";
-    ctx.lineWidth = 2;
-    ctx.strokeText(this.totalScore, 430, 580);
 };
 
 Player.prototype.reset = function () {
@@ -214,6 +210,29 @@ Player.prototype.update = function () {
 
 };
 
+var UI = function() {};
+
+// User Interface
+UI.prototype.render = function () {
+
+    this.totalScore = "Score: " + String(player.score);
+
+    this.playerLives = "Lives: " + String(player.lives);
+
+    ctx.font = "20pt Impact";
+    ctx.textAlign = "center";
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = 2;
+    ctx.strokeText(this.totalScore, 50, 575);
+
+    ctx.font = "20pt Impact";
+    ctx.textAlign = "center";
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = 2;
+    ctx.strokeText(this.playerLives, 450, 575);
+}
+
+
 
 // Now instantiate your objects.
 var enemy0 = new Enemy();
@@ -226,6 +245,8 @@ var pickup1 = new Pickup();
 var allPickups = [pickup0, pickup1];
 
 var player = new Player();
+
+var ui = new UI();
 
 console.log (pickup0.sprite);
 console.log (pickup0.value);
