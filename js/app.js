@@ -23,10 +23,12 @@ function checkCollisions() {
 
         if ((player.x === allPickups[i].x) && (player.y === allPickups[i].y)) {
 
+            // Player gains a life by collecting a heart.
             if (allPickups[i].sprite === 'images/Heart.png') {
                 player.lives = player.lives + 1;
             }
 
+            // Player is awrded points for any of the other collectables.
             else {
                 player.score = player.score + allPickups[i].value;
             }
@@ -251,7 +253,7 @@ UI.prototype.render = function () {
 
 UI.prototype.update = function () {
 
-// Player's Score
+    // Player's Score
     this.totalScore = "Score: " + String(player.score);
 
     // Player's Lives
