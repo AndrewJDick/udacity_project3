@@ -95,10 +95,6 @@ var Engine = (function(global) {
             enemy.update(dt);
         });
 
-        // allPickups.forEach(function(pickup) {
-        //     pickup.update(dt);
-        // });
-
         player.update();
     }
 
@@ -152,17 +148,15 @@ var Engine = (function(global) {
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
-        // allPickups.forEach(function(pickup) {
-        //     pickup.render();
-        // });
-
         allEnemies.forEach(function(enemy) {
             enemy.render();
         });
 
         player.render();
 
-        //
+        allPickups.forEach(function(pickup) {
+             pickup.render();
+        });
 
     }
 
