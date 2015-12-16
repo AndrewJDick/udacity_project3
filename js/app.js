@@ -121,7 +121,8 @@ Pickup.prototype.pickupItem = function () {
 
 Pickup.prototype.render = function() {
 
-    //
+        ctx.drawImage(pickup0.sprite, pickup0.x, pickup0.y);
+
 };
 
 
@@ -162,7 +163,6 @@ Player.prototype.handleInput = function(control) {
 Player.prototype.render = function () {
 
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    ctx.drawImage(Resources.get(pickup0.sprite), pickup0.x, pickup0.y);
 };
 
 Player.prototype.reset = function () {
